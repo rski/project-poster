@@ -41,12 +41,7 @@ digraph Testu1_serial {
   }
 
   newrank=true;
-  { rank = same; generator; Test1;};
-  { rank = same; Test1; "Test 1 Output"; };
-  { rank = same; Test2; "Test 2 Output"; };
-  { rank = same; Test3; "Test 3 Output"; };
-  { rank = same; Test4; "Test 4 Output"; };
-  { rank = same; TestN; "Test N Output"; };
+  { rank = same; generator; Test1; "Test 1 Output" };
   compound = true;
   "driver.out" -> Test1 [lhead = cluster_test_suite];
   struct1:randomNumberSeq1 -> Test1;
