@@ -1,10 +1,12 @@
 digraph Testu1_serial {
   Report [ shape = box, label = "Write Report"];
+
   subgraph cluster_test_suite_driver{
     rank = source;
     label = "Test Suite Driver";
     "driver.out";
   }
+
   subgraph cluster_test_suite {
     label = "Test Suite";
     Test1;
@@ -12,30 +14,33 @@ digraph Testu1_serial {
     Test2 -> Test3
     Test3 -> Test4
     Test4 -> TestN [ style = dotted ];
-    }
-    subgraph cluster_generator {
-      label = "generator"
-      generator [constraint = false] ;
-      subgraph cluster_randomNumberSequence{
-        label = "Random Number Sequence"
-        node [shape = record]
-        struct1 [ label = " { <randomNumberSeq1> Random Number Sequence 1 |
-        <randomNumberSeq2> Random Number Sequence 2 |
-        <randomNumberSeq3> Random Number Sequence 3 |
-        <randomNumberSeq4> Random Number Sequence 4 |
-        ... |
-        <randomNumberSeqN> Random Number Sequence N } " ]
-      }
   }
+
+  subgraph cluster_generator {
+    label = "generator"
+    generator [constraint = false] ;
+    subgraph cluster_randomNumberSequence{
+      label = "Random Number Sequence"
+      node [shape = record]
+      struct1 [ label = " { <randomNumberSeq1> Random Number Sequence 1 |
+      <randomNumberSeq2> Random Number Sequence 2 |
+      <randomNumberSeq3> Random Number Sequence 3 |
+      <randomNumberSeq4> Random Number Sequence 4 |
+      ... |
+      <randomNumberSeqN> Random Number Sequence N } " ]
+    }
+  }
+ 
   newrank=true;
   { rank = same; generator; Test1;};
-  "driver.out" -> Test1;
+  compound = true;
+  "driver.out" -> Test1 [lhead = cluster_test_suite];
   struct1:randomNumberSeq1 -> Test1;
   struct1:randomNumberSeq2 -> Test2;
   struct1:randomNumberSeq3 -> Test3;
   struct1:randomNumberSeq4 -> Test4;
   struct1:randomNumberSeqN -> TestN;
-  generator -> struct1:randomNumberSeq1;
+  generator -> struct1:randomNumberSeq1 [ lhead = cluster_randomNumberSequence];
   Test1 -> "Test 1 output"
   Test2 -> "Test 2 output"
   Test3 -> "Test 3 output"
