@@ -1,6 +1,5 @@
 digraph Testu1_serial {
   rankdir=LR;
-  splines = line;
   subgraph cluster_test_suite_driver{
     label = "Test Suite Driver";
     rank = same;
@@ -18,14 +17,22 @@ digraph Testu1_serial {
     label = "generator"
     rank = same;
     generator [constraint = false] ;
-    randomNumberSeq [ shape = box, label = "Random Number Sequence" ];
+    randomNumberSeq1 [ shape = box, label = "Random Number Sequence 1" ];
+    randomNumberSeq2 [ shape = box, label = "Random Number Sequence 2" ];
+    randomNumberSeq3 [ shape = box, label = "Random Number Sequence 3" ];
+    randomNumberSeq4 [ shape = box, label = "Random Number Sequence 4" ];
+    randomNumberSeqN [ shape = box, label = "Random Number Sequence N" ];
+    generator -> randomNumberSeq1;
+    generator -> randomNumberSeq2;
+    generator -> randomNumberSeq3;
+    generator -> randomNumberSeq4;
+    generator -> randomNumberSeqN;
   }
   }
   "driver.out" -> Test1;
-  generator -> randomNumberSeq; 
-  randomNumberSeq -> Test1;
-  randomNumberSeq -> Test2;
-  randomNumberSeq -> Test3;
-  randomNumberSeq -> Test4;
-  randomNumberSeq -> TestN;
+  randomNumberSeq1 -> Test1;
+  randomNumberSeq2 -> Test2;
+  randomNumberSeq3 -> Test3;
+  randomNumberSeq4 -> Test4;
+  randomNumberSeqN -> TestN;
 }
