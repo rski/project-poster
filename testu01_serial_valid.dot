@@ -1,43 +1,41 @@
 digraph Testu1_serial {
   Report [ shape = box, label = "Write Report"];
   subgraph cluster_test_suite_driver{
+    rank = source;
     label = "Test Suite Driver";
-    rank = same;
     "driver.out";
-    }
+  }
   subgraph cluster_test_suite {
     label = "Test Suite";
-    rank = same;
     Test1;
     Test1 -> Test2
     Test2 -> Test3
     Test3 -> Test4
     Test4 -> TestN [ style = dotted ];
+    }
     subgraph cluster_generator {
       label = "generator"
-      rank = same;
       generator [constraint = false] ;
       subgraph cluster_randomNumberSequence{
         label = "Random Number Sequence"
-        randomNumberSeq1 [ shape = box, label = "Random Number Sequence 1" ];
-        randomNumberSeq2 [ shape = box, label = "Random Number Sequence 2" ];
-        randomNumberSeq3 [ shape = box, label = "Random Number Sequence 3" ];
-        randomNumberSeq4 [ shape = box, label = "Random Number Sequence 4" ];
-        randomNumberSeqN [ shape = box, label = "Random Number Sequence N" ];
-        randomNumberSeq1 -> randomNumberSeq2;
-        randomNumberSeq2 -> randomNumberSeq3;
-        randomNumberSeq3 -> randomNumberSeq4;
-        randomNumberSeq4 -> randomNumberSeqN [ style = dotted ];
+        node [shape = record]
+        struct1 [ label = " { <randomNumberSeq1> Random Number Sequence 1 |
+        <randomNumberSeq2> Random Number Sequence 2 |
+        <randomNumberSeq3> Random Number Sequence 3 |
+        <randomNumberSeq4> Random Number Sequence 4 |
+        ... |
+        <randomNumberSeqN> Random Number Sequence N } " ]
       }
-    }
   }
+  newrank=true;
+  { rank = same; generator; Test1;};
   "driver.out" -> Test1;
-  randomNumberSeq1 -> Test1;
-  randomNumberSeq2 -> Test2;
-  randomNumberSeq3 -> Test3;
-  randomNumberSeq4 -> Test4;
-  randomNumberSeqN -> TestN;
-  generator -> randomNumberSeq1;
+  struct1:randomNumberSeq1 -> Test1;
+  struct1:randomNumberSeq2 -> Test2;
+  struct1:randomNumberSeq3 -> Test3;
+  struct1:randomNumberSeq4 -> Test4;
+  struct1:randomNumberSeqN -> TestN;
+  generator -> struct1:randomNumberSeq1;
   Test1 -> "Test 1 output"
   Test2 -> "Test 2 output"
   Test3 -> "Test 3 output"
