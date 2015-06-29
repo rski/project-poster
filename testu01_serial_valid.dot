@@ -1,5 +1,5 @@
 digraph Testu1_serial {
-  rankdir=LR;
+  Report [ shape = box, label = "Write Report"];
   subgraph cluster_test_suite_driver{
     label = "Test Suite Driver";
     rank = same;
@@ -9,25 +9,27 @@ digraph Testu1_serial {
     label = "Test Suite";
     rank = same;
     Test1;
-    Test1 -> Test2 [constraint=false];
-    Test2 -> Test3 [constraint=false];
-    Test3 -> Test4 [constraint=false];
-    Test4 -> TestN [constraint=false, style=dotted];
-  subgraph cluster_generator {
-    label = "generator"
-    rank = same;
-    generator [constraint = false] ;
-    randomNumberSeq1 [ shape = box, label = "Random Number Sequence 1" ];
-    randomNumberSeq2 [ shape = box, label = "Random Number Sequence 2" ];
-    randomNumberSeq3 [ shape = box, label = "Random Number Sequence 3" ];
-    randomNumberSeq4 [ shape = box, label = "Random Number Sequence 4" ];
-    randomNumberSeqN [ shape = box, label = "Random Number Sequence N" ];
-    generator -> randomNumberSeq1;
-    generator -> randomNumberSeq2;
-    generator -> randomNumberSeq3;
-    generator -> randomNumberSeq4;
-    generator -> randomNumberSeqN;
-  }
+    Test1 -> Test2
+    Test2 -> Test3
+    Test3 -> Test4
+    Test4 -> TestN [ style = dotted ];
+    subgraph cluster_generator {
+      label = "generator"
+      rank = same;
+      generator [constraint = false] ;
+      subgraph cluster_randomNumberSequence{
+        label = "Random Number Sequence"
+        randomNumberSeq1 [ shape = box, label = "Random Number Sequence 1" ];
+        randomNumberSeq2 [ shape = box, label = "Random Number Sequence 2" ];
+        randomNumberSeq3 [ shape = box, label = "Random Number Sequence 3" ];
+        randomNumberSeq4 [ shape = box, label = "Random Number Sequence 4" ];
+        randomNumberSeqN [ shape = box, label = "Random Number Sequence N" ];
+        randomNumberSeq1 -> randomNumberSeq2;
+        randomNumberSeq2 -> randomNumberSeq3;
+        randomNumberSeq3 -> randomNumberSeq4;
+        randomNumberSeq4 -> randomNumberSeqN [ style = dotted ];
+      }
+    }
   }
   "driver.out" -> Test1;
   randomNumberSeq1 -> Test1;
@@ -35,4 +37,11 @@ digraph Testu1_serial {
   randomNumberSeq3 -> Test3;
   randomNumberSeq4 -> Test4;
   randomNumberSeqN -> TestN;
+  generator -> randomNumberSeq1;
+  Test1 -> "Test 1 output"
+  Test2 -> "Test 2 output"
+  Test3 -> "Test 3 output"
+  Test4 -> "Test 4 output"
+  TestN -> "Test N output"
+  TestN -> Report;
 }
