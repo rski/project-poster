@@ -1,15 +1,23 @@
 digraph Testu1_serial {
-  Report [ shape = box, label = "Write Report"];
+  Report [ shape = box, label = "Write Report" fontsize = 30];
+  splines = false
+  S0 [style = invis]
 
   subgraph cluster_test_suite_driver{
-    rank = source;
-    label = "Test Suite Driver";
-    "driver.out";
-  }
+    fontsize = 30
+    rank = min
+    label = "Test Suite\n Driver";
+    "driver.out" [fontsize = 24];
+    }
 
   subgraph cluster_test_suite {
+    fontsize = 30;
     label = "Test Suite";
-    Test1;
+    Test1 [fontsize = 24];
+    Test2[fontsize = 24];
+    Test3[fontsize = 24];
+    Test4[fontsize = 24];
+    TestN[fontsize = 24];
     Test1 -> Test2
     Test2 -> Test3
     Test3 -> Test4
@@ -17,39 +25,40 @@ digraph Testu1_serial {
   }
 
   subgraph cluster_generator {
-    label = "generator"
-    generator [constraint = false] ;
-    subgraph cluster_randomNumberSequence{
-      label = "Random Number Sequence"
-      node [shape = record]
-      struct1 [ label = " { <randomNumberSeq1> Random Number Sequence 1 |
-      <randomNumberSeq2> Random Number Sequence 2 |
-      <randomNumberSeq3> Random Number Sequence 3 |
-      <randomNumberSeq4> Random Number Sequence 4 |
-      ... |
-      <randomNumberSeqN> Random Number Sequence N } " ]
-    }
+    fontsize = 30
+    label = "Generator"
+    S1 -> S2 [label = "Next State" weight = 6]
+    S2 -> S3[weight = 7 ]
+    S3 -> S4[weight = 8 ]
+    S4 -> SN [weight = 9 ]
   }
- 
+
   subgraph cluster_test_results{
+    fontsize = 30
     label = "Results per Test"
-    "Test 1 Output";
-    "Test 2 Output";
-    "Test 3 Output";
-    "Test 4 Output";
-    "Test N Output";
+    "Test 1 Output" [fontsize = 24];
+    "Test 2 Output" [fontsize = 24];
+    "Test 3 Output" [fontsize = 24];
+    "Test 4 Output" [fontsize = 24];
+    "Test N Output" [fontsize = 24];
   }
 
   newrank=true;
-  { rank = same; generator; Test1; "Test 1 Output" };
+  { rank = same; S1; Test1; "Test 1 Output"; };
+  { rank = same; S2; Test2; "Test 2 Output"; };
+  { rank = same; S3; Test3; "Test 3 Output"; };
+  { rank = same; S4; Test4; "Test 4 Output"; };
+  { rank = same; SN; TestN; "Test N Output"; };
+  { rank = same; S0; "driver.out"; };
   compound = true;
-  "driver.out" -> Test1 [lhead = cluster_test_suite];
-  struct1:randomNumberSeq1 -> Test1;
-  struct1:randomNumberSeq2 -> Test2;
-  struct1:randomNumberSeq3 -> Test3;
-  struct1:randomNumberSeq4 -> Test4;
-  struct1:randomNumberSeqN -> TestN;
-  generator -> struct1:randomNumberSeq1 [ lhead = cluster_randomNumberSequence];
+  "driver.out" -> Test1 [lhead = cluster_test_suite]
+  S0 -> S1 [style = invis]
+  S0 -> Test1 [style = invis]
+  S1 -> Test1 [label = "RN Sequence 1" weight = 5]
+  S2 -> Test2 [label = "RN Sequence 2" weight = 6]
+  S3 -> Test3 [label = "RN Sequence 3" weight = 7]
+  S4 -> Test4 [label = "RN Sequence 4" weight = 8]
+  SN -> TestN [label = "RN Sequence N" weight = 9]
   Test1 -> "Test 1 Output"
   Test2 -> "Test 2 Output"
   Test3 -> "Test 3 Output"
