@@ -1,0 +1,99 @@
+digraph Testu1_serial {
+  S0 [style = invis]
+
+  subgraph cluster_test_master{
+    fontsize = 24
+    label = "Master Process"
+    FinalOutput [ shape = box, label = "Output Test Results and Report" ]
+    "Fork Tests"
+
+    subgraph cluster_test_process1{
+      fontsize = 24
+      label = ""
+      {rank = same; Gen1; Test1;}
+      Slave1 [label = "slave_process.out"]
+      Report1 [label = "Report"]
+      Output1 [label = "Test 1 Output"]
+      Gen1 [label = "Gen1"]
+      Gen1 -> "Test1" [label = "S0"]
+      Slave1 -> "Test1" -> Output1
+      "Test1" -> Report1
+    }
+    subgraph cluster_test_process2{
+      fontsize = 24
+      label = ""
+      {rank = same; Gen2; Test2;}
+      Slave2 [label = "slave_process.out"]
+      Report2 [label = "Report"]
+      Output2 [label = "Test 2 Output"]
+      Gen2 [label = "Gen2"]
+      Gen2 -> "Test2" [label = "S0"]
+      Slave2 -> "Test2" -> Output2
+      "Test2" -> Report2
+    }
+    subgraph cluster_test_process3{
+      fontsize = 24
+      label = ""
+      {rank = same; Gen3; Test3;}
+      Slave3 [label = "slave_process.out"]
+      Report3 [label = "Report"]
+      Output3 [label = "Test 3 Output"]
+      Gen3 [label = "Gen3"]
+      Gen3 -> "Test3" [label = "S0"]
+      Slave3 -> "Test3" -> Output3
+      "Test3" -> Report3
+    }
+    subgraph cluster_test_process4{
+      fontsize = 24
+      label = ""
+      {rank = same; Gen4; Test4;}
+      Slave4 [label = "slave_process.out"]
+      Report4 [label = "Report"]
+      Output4 [label = "Test 4 Output"]
+      Gen4 [label = "Gen4"]
+      Gen4 -> "Test4" [label = "S0"]
+      Slave4 -> "Test4" -> Output4
+      "Test4" -> Report4
+    }
+    subgraph cluster_test_processN{
+      fontsize = 24
+      label = ""
+      {rank = same; GenN; TestN;}
+      SlaveN [label = "slave_process.out"]
+      ReportN [label = "Report"]
+      OutputN [label = "Test N Output"]
+      GenN [label = "GenN"]
+      GenN -> "TestN" [label = "S0"]
+      SlaveN -> "TestN" -> OutputN
+      TestN -> ReportN
+    }
+    "Fork Tests" -> Slave1;
+    "Fork Tests" -> Slave2;
+    "Fork Tests" -> Slave3;
+    "Fork Tests" -> Slave4;
+    "Fork Tests" -> SlaveN [style = dotted];
+    Report1 -> "Gather Results"
+    Report2 -> "Gather Results"
+    Report3 -> "Gather Results"
+    Report4 -> "Gather Results"
+    ReportN -> "Gather Results"
+    Output1 -> "Gather Results"
+    Output2 -> "Gather Results"
+    Output3 -> "Gather Results"
+    Output4 -> "Gather Results"
+    OutputN -> "Gather Results"
+    "Gather Results" -> FinalOutput;
+
+  }
+
+  subgraph cluster_test_suite {
+    fontsize = 30;
+    label = "Test Suite";
+  }
+  newrank=true;
+  { rank = same; Slave1;Slave2;Slave3;Slave4;SlaveN; }
+  { rank = same; Report1;Report2;Report3;Report4;ReportN; }
+  { rank = same; Test1;Test2;Test3;Test4;TestN; }
+  { rank = same; Test1;Test2;Test3;Test4;TestN; }
+  compound = true;
+}
