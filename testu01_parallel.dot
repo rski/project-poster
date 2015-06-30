@@ -31,6 +31,7 @@ digraph Testu1_serial {
       Slave2 -> "Test2" -> Output2
       "Test2" -> Report2
     }
+    /*
     subgraph cluster_test_process3{
       fontsize = 24
       label = ""
@@ -55,6 +56,7 @@ digraph Testu1_serial {
       Slave4 -> "Test4" -> Output4
       "Test4" -> Report4
     }
+    */
     subgraph cluster_test_processN{
       fontsize = 24
       label = ""
@@ -69,31 +71,35 @@ digraph Testu1_serial {
     }
     "Fork Tests" -> Slave1;
     "Fork Tests" -> Slave2;
+    /*
     "Fork Tests" -> Slave3;
     "Fork Tests" -> Slave4;
+    */
     "Fork Tests" -> SlaveN [style = dotted];
     Report1 -> "Gather Results"
     Report2 -> "Gather Results"
+    /*
     Report3 -> "Gather Results"
     Report4 -> "Gather Results"
-    ReportN -> "Gather Results"
+    */
+    ReportN -> "Gather Results" [style = dotted]
     Output1 -> "Gather Results"
     Output2 -> "Gather Results"
+    /*
     Output3 -> "Gather Results"
     Output4 -> "Gather Results"
-    OutputN -> "Gather Results"
+    */
+    OutputN -> "Gather Results" [style = dotted]
     "Gather Results" -> FinalOutput;
 
   }
 
-  subgraph cluster_test_suite {
-    fontsize = 30;
-    label = "Test Suite";
-  }
   newrank=true;
+  /*
   { rank = same; Slave1;Slave2;Slave3;Slave4;SlaveN; }
   { rank = same; Report1;Report2;Report3;Report4;ReportN; }
   { rank = same; Test1;Test2;Test3;Test4;TestN; }
   { rank = same; Test1;Test2;Test3;Test4;TestN; }
+  */
   compound = true;
 }
