@@ -1,0 +1,15 @@
+digraph generator_valid {
+  subgraph cluster_generator {
+  fontsize = 30;
+  label = Generator;
+  {rank = same;  State1; Value1;}
+  {rank = same;  State2; Value2;}
+  {rank = same;  StateN; ValueN;}
+  Seed -> State1 [label = " Initialise State\n Machine" weight = 9]
+  State1 -> State2 [label = " Transition\n Function" weight = 7]
+  State1 -> Value1
+  State2 -> StateN [label = " Transition\n Function" style = dotted weight = 6]
+  State2 -> Value2
+  StateN -> ValueN
+  }
+}
